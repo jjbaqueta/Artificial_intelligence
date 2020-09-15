@@ -1,9 +1,9 @@
 # Artificial_intelligence
 In this repository there are some projects regarding artificial intelligence techniques. In particular, autonomous agents, genetic algorithms, fuzzy logic and neural networks.
 
-Fuzzy Classifier
+<b>Fuzzy Classifier</b>
 
-In this project a fuzzy classifier was implemented to solve a classification problem. The results from fuzzy classifier are compared against the results obtained from a multi-layer perceptron network (MLP). In particular, the neural network used in this project was built using the framework Weka (implemented in  Java). Below, it is shown a simple comparison between approaches:
+In this project a fuzzy classifier was implemented to solve a classification problem. The results from fuzzy classifier are compared against the results obtained from a multi-layer perceptron network (MLP). In particular, the neural network used in this project was built using the framework Weka (implemented in  Java). In this experiment, the classifiers are used to decide whether a money bill is genuine or fake according with some wavelet components. Below, it is shown a simple comparison between approaches:
 
 - Fuzzy approach:
 
