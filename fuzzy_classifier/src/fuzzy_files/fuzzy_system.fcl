@@ -1,0 +1,135 @@
+FUNCTION_BLOCK money
+
+VAR_INPUT
+	variance : REAL;
+	skewness : REAL;
+	curtosis : REAL;
+	entropy : REAL;
+END_VAR
+
+VAR_OUTPUT
+	class : REAL;
+END_VAR
+
+FUZZIFY variance 
+	TERM low := (-7.042, 1) (-5.1661, 1) (-2.5, 0);
+	TERM middle := (-2.78707, 0) (-0.40804, 1) (1.5, 0);
+	TERM high := (1.2, 0) (2.3917, 1) (6.825, 1);
+END_FUZZIFY
+
+FUZZIFY skewness 
+	TERM low := (-13.773, 1) (-4.7428, 1) (0.0, 0);
+	TERM middle := (-1.1, 0) (1.852, 1) (5.2, 0);
+	TERM high := (4.67, 0) (7.6584, 1) (12.952, 1);
+END_FUZZIFY
+
+FUZZIFY curtosis 
+	TERM low := (-5.289, 1) (-4.8037, 1) (0.0, 0);
+	TERM middle := (-1.0, 0) (2.135, 1) (4.2, 0);
+	TERM high := (4.0, 0) (6.2109, 1) (17.927, 1);
+END_FUZZIFY
+
+FUZZIFY entropy 
+	TERM low := (-8.548, 1) (-3.5, 0);
+	TERM middle := (-3.7, 0) (-2.0, 1) (0.0, 0);
+	TERM high := (-0.13794, 0) (2.45, 1);
+END_FUZZIFY
+
+DEFUZZIFY class
+	TERM false := (0, 1) (0.6, 0);
+	TERM true := (0.4, 0) (1, 1);
+	
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK No1
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'max' accumulation method
+
+	RULE 655: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 5: IF variance IS high AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 784: IF variance IS low AND skewness IS middle AND curtosis IS low AND entropy IS middle THEN class IS true;
+RULE 703: IF variance IS middle AND skewness IS middle AND curtosis IS middle AND entropy IS high THEN class IS true;
+RULE 81: IF variance IS high AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 475: IF variance IS middle AND skewness IS high AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 753: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 259: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 607: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS true;
+RULE 918: IF variance IS low AND skewness IS middle AND curtosis IS middle AND entropy IS low THEN class IS true;
+RULE 766: IF variance IS low AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS true;
+RULE 1005: IF variance IS low AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS true;
+RULE 32: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 677: IF variance IS middle AND skewness IS middle AND curtosis IS low AND entropy IS high THEN class IS true;
+RULE 617: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS true;
+RULE 173: IF variance IS high AND skewness IS middle AND curtosis IS low AND entropy IS high THEN class IS false;
+RULE 88: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS high THEN class IS false;
+RULE 700: IF variance IS low AND skewness IS middle AND curtosis IS middle AND entropy IS high THEN class IS true;
+RULE 733: IF variance IS middle AND skewness IS low AND curtosis IS low AND entropy IS high THEN class IS true;
+RULE 631: IF variance IS low AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS true;
+RULE 803: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 1074: IF variance IS high AND skewness IS middle AND curtosis IS low AND entropy IS low THEN class IS true;
+RULE 34: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS high THEN class IS false;
+RULE 14: IF variance IS high AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 495: IF variance IS high AND skewness IS middle AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 35: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 690: IF variance IS middle AND skewness IS middle AND curtosis IS low AND entropy IS middle THEN class IS true;
+RULE 105: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 162: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 599: IF variance IS high AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS false;
+RULE 464: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS middle THEN class IS false;
+RULE 69: IF variance IS middle AND skewness IS middle AND curtosis IS high AND entropy IS high THEN class IS false;
+RULE 468: IF variance IS low AND skewness IS middle AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 712: IF variance IS middle AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS true;
+RULE 311: IF variance IS high AND skewness IS high AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 7: IF variance IS high AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 530: IF variance IS middle AND skewness IS low AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 2: IF variance IS middle AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 11: IF variance IS high AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS false;
+RULE 546: IF variance IS high AND skewness IS low AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 17: IF variance IS middle AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 139: IF variance IS middle AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 133: IF variance IS middle AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 15: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 544: IF variance IS middle AND skewness IS high AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 973: IF variance IS middle AND skewness IS middle AND curtosis IS low AND entropy IS low THEN class IS true;
+RULE 80: IF variance IS low AND skewness IS high AND curtosis IS middle AND entropy IS low THEN class IS false;
+RULE 47: IF variance IS high AND skewness IS middle AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 1049: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS true;
+RULE 1079: IF variance IS high AND skewness IS middle AND curtosis IS low AND entropy IS middle THEN class IS true;
+RULE 258: IF variance IS middle AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 957: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 523: IF variance IS high AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 856: IF variance IS middle AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 1038: IF variance IS low AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS true;
+RULE 623: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS true;
+RULE 136: IF variance IS middle AND skewness IS high AND curtosis IS middle AND entropy IS low THEN class IS false;
+RULE 423: IF variance IS high AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 181: IF variance IS middle AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 600: IF variance IS high AND skewness IS middle AND curtosis IS high AND entropy IS high THEN class IS false;
+RULE 736: IF variance IS low AND skewness IS high AND curtosis IS middle AND entropy IS middle THEN class IS true;
+RULE 174: IF variance IS high AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 187: IF variance IS high AND skewness IS middle AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 362: IF variance IS low AND skewness IS high AND curtosis IS middle AND entropy IS low THEN class IS false;
+RULE 44: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS high THEN class IS false;
+RULE 300: IF variance IS high AND skewness IS high AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 38: IF variance IS high AND skewness IS low AND curtosis IS middle AND entropy IS middle THEN class IS false;
+RULE 624: IF variance IS middle AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS true;
+RULE 1054: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 1072: IF variance IS middle AND skewness IS low AND curtosis IS middle AND entropy IS high THEN class IS true;
+RULE 991: IF variance IS low AND skewness IS middle AND curtosis IS low AND entropy IS low THEN class IS true;
+RULE 983: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 18: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS low THEN class IS false;
+RULE 1007: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS high THEN class IS true;
+RULE 968: IF variance IS low AND skewness IS middle AND curtosis IS low AND entropy IS middle THEN class IS true;
+RULE 580: IF variance IS middle AND skewness IS middle AND curtosis IS high AND entropy IS middle THEN class IS false;
+RULE 525: IF variance IS high AND skewness IS high AND curtosis IS low AND entropy IS middle THEN class IS false;
+RULE 882: IF variance IS middle AND skewness IS low AND curtosis IS low AND entropy IS high THEN class IS true;
+RULE 646: IF variance IS low AND skewness IS low AND curtosis IS high AND entropy IS middle THEN class IS true;
+RULE 913: IF variance IS low AND skewness IS high AND curtosis IS middle AND entropy IS low THEN class IS true;
+RULE 686: IF variance IS low AND skewness IS middle AND curtosis IS middle AND entropy IS low THEN class IS true;
+	    
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
